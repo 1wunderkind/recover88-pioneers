@@ -6,7 +6,22 @@ function App() {
   const [todayJoined, setTodayJoined] = useState(37)
   const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
+  const [gdprConsent, setGdprConsent] = useState(false)
+  const [honeypot, setHoneypot] = useState('') // Spam protection
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [utmParams, setUtmParams] = useState({})
+
+  // Capture UTM parameters on load
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const utm = {
+      source: urlParams.get('utm_source') || '',
+      medium: urlParams.get('utm_medium') || '',
+      campaign: urlParams.get('utm_campaign') || '',
+      content: urlParams.get('utm_content') || ''
+    }
+    setUtmParams(utm)
+  }, [])
 
   // Live counter animation
   useEffect(() => {
@@ -21,9 +36,60 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (firstName && email) {
+    
+    // Spam protection - if honeypot is filled, it's a bot
+    if (honeypot) {
+      return
+    }
+    
+    if (firstName && email && gdprConsent) {
+      // Here you would send to Gumloop webhook
+      const formData = {
+        firstName,
+        email,
+        gdprConsent,
+        utmParams,
+        timestamp: new Date().toISOString(),
+        pioneerNumber: pioneerCount + 1
+      }
+      
+      // TODO: Send to Gumloop webhook
+      console.log('Form data:', formData)
+      
       setIsSubmitted(true)
       setPioneerCount(prev => prev + 1)
+    }
+  }
+
+  // Social sharing functions
+  const shareOnTwitter = () => {
+    const text = `Just joined the Recover88 Pioneer List! 🚀 AI-powered cart recovery that guarantees $279 back or you pay nothing. ${pioneerCount}+ merchants competing for 100 Founders spots at $99/mo forever.`
+    const url = `https://pioneers.recover88.com?utm_source=twitter&utm_medium=social&utm_campaign=pioneer_share&utm_content=${firstName.toLowerCase()}`
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank')
+  }
+
+  const shareOnLinkedIn = () => {
+    const title = 'Recover88 Pioneer List - AI Cart Recovery'
+    const summary = `Just joined ${pioneerCount}+ merchants on the Recover88 Pioneer List. AI-powered behavioral recovery that guarantees $279 back or you pay nothing. First 100 get $99/mo forever!`
+    const url = `https://pioneers.recover88.com?utm_source=linkedin&utm_medium=social&utm_campaign=pioneer_share&utm_content=${firstName.toLowerCase()}`
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`, '_blank')
+  }
+
+  const copyLink = async () => {
+    const url = `https://pioneers.recover88.com?utm_source=direct&utm_medium=referral&utm_campaign=pioneer_share&utm_content=${firstName.toLowerCase()}`
+    try {
+      await navigator.clipboard.writeText(url)
+      // You could add a toast notification here
+      alert('Link copied to clipboard!')
+    } catch (err) {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea')
+      textArea.value = url
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      alert('Link copied to clipboard!')
     }
   }
 
@@ -33,12 +99,13 @@ function App() {
         <div className="container mx-auto px-6 py-20 text-center">
           <div className="max-w-2xl mx-auto">
             <h1 className="text-4xl font-bold mb-6 text-cyan-400">
-              Welcome to the Pioneer Club, {firstName}! 🎉
+              Welcome to the Recover88 Pioneer List, {firstName}! 🎉
             </h1>
             <p className="text-xl mb-8">
               You are now Pioneer #{pioneerCount}. Get ready for launch day!
             </p>
-            <div className="bg-white/5 border border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg">
+            
+            <div className="bg-white/5 border border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg mb-8">
               <h2 className="text-2xl font-bold mb-4 text-cyan-400">What happens next?</h2>
               <div className="space-y-4 text-left">
                 <div className="flex items-center gap-3">
@@ -55,6 +122,51 @@ function App() {
                 </div>
               </div>
             </div>
+
+            {/* Social Sharing Section */}
+            <div className="bg-white/5 border border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg">
+              <h2 className="text-2xl font-bold mb-4 text-cyan-400">Help us reach 1,000 Pioneers!</h2>
+              <p className="text-gray-300 mb-6">
+                Share with other merchants who are losing money to abandoned carts. 
+                The more Pioneers, the stronger our launch community becomes.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={shareOnTwitter}
+                  className="flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  Share on X
+                </button>
+                
+                <button
+                  onClick={shareOnLinkedIn}
+                  className="flex items-center justify-center gap-3 bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  Share on LinkedIn
+                </button>
+                
+                <button
+                  onClick={copyLink}
+                  className="flex items-center justify-center gap-3 bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  Copy Link
+                </button>
+              </div>
+              
+              <p className="text-sm text-gray-400 mt-4">
+                Your referral link includes tracking so we can see how many merchants you bring to the Pioneer List!
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -66,7 +178,7 @@ function App() {
       {/* Counter Bar */}
       <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-b border-cyan-400/20 backdrop-blur-lg">
         <div className="container mx-auto px-6 py-3 text-center text-sm">
-          <span className="text-cyan-400 font-bold animate-pulse">{pioneerCount}+</span> Pioneers competing for 100 Founders spots
+          <span className="text-cyan-400 font-bold animate-pulse">{pioneerCount}+</span> Pioneers on the list • 100 Founders spots available
           <span className="mx-4">•</span>
           <span className="text-cyan-400 font-bold">{todayJoined}</span> joined today
           <span className="mx-4">•</span>
@@ -87,7 +199,7 @@ function App() {
         
         <div className="max-w-2xl mx-auto bg-white/5 border-2 border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg shadow-2xl">
           <p className="mb-6 text-cyan-400 font-bold">
-            <span className="animate-pulse">{pioneerCount}</span> merchants waiting • First 100 to claim get $99/mo forever
+            <span className="animate-pulse">{pioneerCount}</span> merchants on the Pioneer List • First 100 to claim get $99/mo forever
           </p>
           
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -109,11 +221,40 @@ function App() {
                 required
               />
             </div>
+            
+            {/* Honeypot field - hidden from users */}
+            <input
+              type="text"
+              name="website"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              style={{ display: 'none' }}
+              tabIndex="-1"
+              autoComplete="off"
+            />
+            
+            {/* GDPR Consent */}
+            <div className="flex items-start gap-3 text-left">
+              <input
+                type="checkbox"
+                id="gdpr-consent"
+                checked={gdprConsent}
+                onChange={(e) => setGdprConsent(e.target.checked)}
+                className="mt-1 w-4 h-4 text-cyan-400 bg-white/10 border-cyan-400 rounded focus:ring-cyan-400 focus:ring-2"
+                required
+              />
+              <label htmlFor="gdpr-consent" className="text-sm text-gray-300">
+                I agree to receive launch notifications and updates from Recover88. You can unsubscribe at any time. 
+                <a href="#" className="text-cyan-400 hover:underline ml-1">Privacy Policy</a>
+              </label>
+            </div>
+            
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-black px-8 py-4 rounded-xl text-lg font-bold hover:shadow-lg hover:shadow-cyan-400/40 transition-all duration-300 hover:scale-105"
+              disabled={!gdprConsent}
+              className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-black px-8 py-4 rounded-xl text-lg font-bold hover:shadow-lg hover:shadow-cyan-400/40 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Join {pioneerCount} Pioneers Waiting
+              Join the Pioneer List
             </button>
           </form>
           
@@ -286,6 +427,12 @@ function App() {
           <h3 className="text-2xl font-bold mb-4 text-cyan-400">The Recover88 Guarantee</h3>
           <p className="mb-4">If we don't recover $279 in your first 30 days, you pay nothing. If we do, you've already profited. Either way, you can't lose.</p>
           <p className="text-sm text-gray-400">* Guarantee applies to all customers, not just Founders</p>
+        </div>
+        
+        {/* Footer */}
+        <div className="text-center py-12 border-t border-cyan-400/10 mt-20">
+          <p className="text-cyan-400 font-bold text-lg">Pioneers today, Founders tomorrow.</p>
+          <p className="text-gray-400 text-sm mt-2">Recover88 © 2025 | Building in public | Follow us on X</p>
         </div>
       </div>
     </div>

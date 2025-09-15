@@ -365,39 +365,39 @@ function App() {
         </div>
       </div>
 
-      {/* Building Progress */}
+      {/* FAQ Section */}
       <div className="container mx-auto px-6 py-20 border-t border-cyan-400/10">
-        <h2 className="text-4xl font-bold text-center mb-16">What We're Building This Week</h2>
+        <h2 className="text-4xl font-bold text-center mb-16">Frequently Asked Questions</h2>
         
-        <div className="max-w-2xl mx-auto space-y-6">
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <span>SMS recovery sequences</span>
-              <span className="text-green-400 font-bold">Completed</span>
-            </div>
-            <div className="bg-white/10 h-3 rounded-full overflow-hidden">
-              <div className="bg-gradient-to-r from-green-400 to-green-500 h-full w-full rounded-full"></div>
-            </div>
+        <div className="max-w-4xl mx-auto space-y-8">
+          <div className="bg-white/5 border border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 to-transparent"></div>
+            <h3 className="text-xl font-bold mb-4 text-cyan-400">
+              "What if I already use Klaviyo/Omnisend?"
+            </h3>
+            <p className="text-gray-300 leading-relaxed">
+              Keep them for newsletters. Recover88 only does one thing - recover revenue. Our AI sees patterns your email tool misses.
+            </p>
           </div>
-          
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <span>Real-time behavioral tracking</span>
-              <span className="text-yellow-400 font-bold">70% done</span>
-            </div>
-            <div className="bg-white/10 h-3 rounded-full overflow-hidden">
-              <div className="bg-gradient-to-r from-cyan-400 to-blue-500 h-full w-[70%] rounded-full"></div>
-            </div>
+
+          <div className="bg-white/5 border border-blue-400/30 rounded-2xl p-8 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-transparent"></div>
+            <h3 className="text-xl font-bold mb-4 text-blue-400">
+              "How is this different from abandoned cart apps?"
+            </h3>
+            <p className="text-gray-300 leading-relaxed">
+              They send emails. We read minds. (Well, behavioral signals, but same result - 47% higher recovery.)
+            </p>
           </div>
-          
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <span>AI confidence scoring</span>
-              <span className="text-red-400 font-bold">Starting tomorrow</span>
-            </div>
-            <div className="bg-white/10 h-3 rounded-full overflow-hidden">
-              <div className="bg-gradient-to-r from-cyan-400 to-blue-500 h-full w-[5%] rounded-full"></div>
-            </div>
+
+          <div className="bg-white/5 border border-purple-400/30 rounded-2xl p-8 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 to-transparent"></div>
+            <h3 className="text-xl font-bold mb-4 text-purple-400">
+              "What happens after 100 Pioneers?"
+            </h3>
+            <p className="text-gray-300 leading-relaxed">
+              Price goes to $297/mo. Pioneers keep $99 forever. You save $2,376/year for being early.
+            </p>
           </div>
         </div>
         

@@ -185,8 +185,11 @@ function App() {
             The First Adaptive Persuasion Engine for E-commerce
           </div>
         </h1>
+        <p className="text-2xl mb-4 text-cyan-400 font-bold max-w-4xl mx-auto">
+          Trained on human psychology. Designed for Shopify.
+        </p>
         <p className="text-xl mb-12 text-gray-300 max-w-4xl mx-auto">
-          While others spam generic "complete your order" emails, Recover88's behavioral AI reads the psychological signals that actually bring customers back. 47% higher recovery rate. Money-back guarantee.
+          While others blast generic emails, we're applying behavioral science models to every abandoned cart in real-time.
         </p>
         
         <div className="max-w-2xl mx-auto bg-white/5 border-2 border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg shadow-2xl">

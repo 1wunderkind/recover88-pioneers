@@ -175,17 +175,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-slate-900 to-blue-900 text-white">
-      {/* Counter Bar */}
-      <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-b border-cyan-400/20 backdrop-blur-lg">
-        <div className="container mx-auto px-6 py-3 text-center text-sm">
-          <span className="text-cyan-400 font-bold animate-pulse">{pioneerCount}+</span> Pioneers on the list • 100 Founders spots available
-          <span className="mx-4">•</span>
-          <span className="text-cyan-400 font-bold">{todayJoined}</span> joined today
-          <span className="mx-4">•</span>
-          Building in public • Follow @Recover88X
-        </div>
-      </div>
-
       {/* Hero Section */}
       <div className="container mx-auto px-6 py-20 text-center">
         <h1 className="font-bold mb-6 text-center">

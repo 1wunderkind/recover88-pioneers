@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Forms Field ID Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-url {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .detect-btn {
+            background: #4285f4;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .detect-btn:hover {
+            background: #3367d6;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #4285f4;
+        }
+        .field-id {
+            font-family: monospace;
+            background: #e8f0fe;
+            padding: 5px 8px;
+            margin: 2px 0;
+            border-radius: 3px;
+            display: block;
+        }
+        .copy-btn {
+            background: #34a853;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Google Forms Field ID Detector</h1>
+        
+        <div class="instructions">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Your form URL is already filled in below</li>
+                <li>Click "Detect Field IDs" to automatically find all field IDs</li>
+                <li>Copy the results and send them to complete your integration</li>
+            </ol>
+        </div>
+
+        <label for="formUrl"><strong>Google Form URL:</strong></label>
+        <input type="text" id="formUrl" class="form-url" 
+               value="https://docs.google.com/forms/d/e/1FAipQLSfNHNMoPRA44gCyc0O_F7bizK0EE_zxkXBbpxtlMnqNQlC9qg/viewform"
+               placeholder="Enter your Google Form URL">
+        
+        <button class="detect-btn" onclick="detectFieldIDs()">🔍 Detect Field IDs</button>
+        
+        <div id="results" class="results" style="display: none;">
+            <h3>📋 Field IDs Found:</h3>
+            <div id="fieldList"></div>
+            <button class="copy-btn" onclick="copyResults()">📋 Copy All Field IDs</button>
+        </div>
+        
+        <div id="loading" style="display: none; text-align: center; padding: 20px;">
+            <p>🔄 Detecting field IDs...</p>
+        </div>
+    </div>
+
+    <script>
+        async function detectFieldIDs() {
+            const formUrl = document.getElementById('formUrl').value;
+            const loadingDiv = document.getElementById('loading');
+            const resultsDiv = document.getElementById('results');
+            
+            if (!formUrl) {
+                alert('Please enter a Google Form URL');
+                return;
+            }
+            
+            loadingDiv.style.display = 'block';
+            resultsDiv.style.display = 'none';
+            
+            try {
+                // Fetch the form HTML
+                const response = await fetch(formUrl);
+                const html = await response.text();
+                
+                // Parse the HTML to find entry fields
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Find all entry fields
+                const entryFields = [];
+                
+                // Method 1: Look for input elements with entry names
+                const inputs = doc.querySelectorAll('input[name*="entry."]');
+                inputs.forEach(input => {
+                    const name = input.getAttribute('name');
+                    if (name && name.startsWith('entry.')) {
+                        entryFields.push(name);
+                    }
+                });
+                
+                // Method 2: Look for data-params with entry references
+                const dataParams = doc.querySelectorAll('[data-params*="entry."]');
+                dataParams.forEach(element => {
+                    const params = element.getAttribute('data-params');
+                    if (params) {
+                        const matches = params.match(/entry\.\d+/g);
+                        if (matches) {
+                            matches.forEach(match => {
+                                if (!entryFields.includes(match)) {
+                                    entryFields.push(match);
+                                }
+                            });
+                        }
+                    }
+                });
+                
+                // Method 3: Search the entire HTML for entry patterns
+                const entryMatches = html.match(/entry\.\d+/g);
+                if (entryMatches) {
+                    entryMatches.forEach(match => {
+                        if (!entryFields.includes(match)) {
+                            entryFields.push(match);
+                        }
+                    });
+                }
+                
+                // Remove duplicates and sort
+                const uniqueFields = [...new Set(entryFields)].sort();
+                
+                displayResults(uniqueFields);
+                
+            } catch (error) {
+                console.error('Error detecting field IDs:', error);
+                alert('Error detecting field IDs. Please check the URL and try again.');
+            }
+            
+            loadingDiv.style.display = 'none';
+        }
+        
+        function displayResults(fieldIDs) {
+            const resultsDiv = document.getElementById('results');
+            const fieldList = document.getElementById('fieldList');
+            
+            if (fieldIDs.length === 0) {
+                fieldList.innerHTML = '<p>❌ No field IDs found. Please check the form URL.</p>';
+            } else {
+                const fieldLabels = [
+                    'First Name',
+                    'Email Address', 
+                    'GDPR Consent',
+                    'UTM Source',
+                    'UTM Medium',
+                    'UTM Campaign',
+                    'UTM Content',
+                    'Timestamp'
+                ];
+                
+                let html = '<p>✅ Found ' + fieldIDs.length + ' field IDs:</p>';
+                
+                fieldIDs.forEach((fieldID, index) => {
+                    const label = fieldLabels[index] || `Field ${index + 1}`;
+                    html += `<div class="field-id">${label}: ${fieldID}</div>`;
+                });
+                
+                fieldList.innerHTML = html;
+            }
+            
+            resultsDiv.style.display = 'block';
+        }
+        
+        function copyResults() {
+            const fieldElements = document.querySelectorAll('.field-id');
+            let text = '';
+            
+            fieldElements.forEach(element => {
+                text += element.textContent + '\n';
+            });
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Field IDs copied to clipboard!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('✅ Field IDs copied to clipboard!');
+            });
+        }
+        
+        // Auto-detect on page load
+        window.onload = function() {
+            // Give user a moment to see the page, then auto-detect
+            setTimeout(() => {
+                detectFieldIDs();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
+

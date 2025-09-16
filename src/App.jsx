@@ -189,9 +189,7 @@ function App() {
       {/* Hero Section */}
       <div className="container mx-auto px-6 py-20 text-center">
         <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-          Your AI Recovery Pilot That Guarantees $279 Back
-          <br />
-          Or Pay Nothing
+          Recover88 The First Adaptive Persuasion Engine for E-commerce
         </h1>
         <p className="text-xl mb-12 text-gray-300 max-w-4xl mx-auto">
           While others spam generic "complete your order" emails, Recover88's behavioral AI reads the psychological signals that actually bring customers back. 47% higher recovery rate. Money-back guarantee.

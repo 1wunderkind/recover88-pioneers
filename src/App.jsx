@@ -189,7 +189,7 @@ function App() {
           Trained on human psychology. Designed for Shopify.
         </p>
         <p className="text-xl mb-12 text-gray-300 max-w-4xl mx-auto">
-          While others blast generic emails, we're applying behavioral science models to every abandoned cart in real-time.
+          While others blast generic emails, we're applying behavioral science models to every abandoned cart in real-time. Recover88 helps merchants recover up to 47% more abandoned carts by adapting each message to the shopper's mindset.
         </p>
         
         <div className="max-w-2xl mx-auto bg-white/5 border-2 border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg shadow-2xl">
@@ -261,12 +261,12 @@ function App() {
 
       {/* Problem Section */}
       <div className="container mx-auto px-6 py-20 border-t border-cyan-400/10">
-        <h2 className="text-4xl font-bold text-center mb-12">Every month, you're losing $4,000+ to abandoned carts</h2>
+        <h2 className="text-4xl font-bold text-center mb-12">On average, 7 out of 10 carts are abandoned. For most merchants, that means thousands in lost revenue every month.</h2>
         <p className="text-xl text-center text-gray-300 max-w-4xl mx-auto mb-8">
           Standard recovery tools treat every customer the same. But a price-sensitive shopper needs different messaging than an impulse buyer. A skeptical customer needs trust signals, not discount codes.
         </p>
         <p className="text-2xl text-center text-red-400 font-bold">
-          That's $48,000/year left on the table because your recovery emails are dumb.
+          That's money left on the table because your recovery emails treat every customer the same.
         </p>
       </div>
 
@@ -381,7 +381,7 @@ function App() {
               "How is this different from abandoned cart apps?"
             </h3>
             <p className="text-gray-300 leading-relaxed">
-              They send emails. We read minds. (Well, behavioral signals, but same result - 47% higher recovery.)
+              Other apps send emails. We interpret behavioral signals — resulting in up to 47% higher recovery.
             </p>
           </div>
 
@@ -403,7 +403,7 @@ function App() {
 
       {/* Final CTA */}
       <div className="container mx-auto px-6 py-20 border-t border-cyan-400/10">
-        <h2 className="text-4xl font-bold text-center mb-8">Join {pioneerCount} Merchants Preparing for The Founders Launch</h2>
+        <h2 className="text-4xl font-bold text-center mb-8">Join {pioneerCount} merchants already preparing to recover more revenue with behavioral AI.</h2>
         <p className="text-xl text-center mb-12">
           Every day you wait = More competition for Founders spots.<br />
           First 100 save $2,376/year. Everyone else pays full price.
@@ -420,7 +420,7 @@ function App() {
         
         <div className="max-w-2xl mx-auto bg-cyan-400/5 border-2 border-cyan-400/20 rounded-2xl p-8 text-center backdrop-blur-lg">
           <h3 className="text-2xl font-bold mb-4 text-cyan-400">The Recover88 Guarantee</h3>
-          <p className="mb-4">If we don't recover $279 in your first 30 days, you pay nothing. If we do, you've already profited. Either way, you can't lose.</p>
+          <p className="mb-4">If we don't recover at least $279 in your first 30 days, you don't pay. Simple.</p>
           <p className="text-sm text-gray-400">* Guarantee applies to all customers, not just Founders</p>
         </div>
         

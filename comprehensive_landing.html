@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recover88 - Stop Losing Revenue to Abandoned Carts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .bg-clip-text {
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        .text-transparent {
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-black via-slate-900 to-blue-900 text-white">
+    <!-- Hero Section -->
+    <div class="container mx-auto px-6 py-20 text-center">
+        <h1 class="font-bold mb-6 text-center">
+            <div class="text-6xl md:text-7xl bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                Recover88
+            </div>
+            <div class="text-3xl md:text-4xl bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                The First Adaptive Persuasion Engine for E-commerce
+            </div>
+        </h1>
+        <p class="text-2xl mb-4 text-cyan-400 font-bold max-w-4xl mx-auto">
+            Trained on human psychology. Designed for Shopify.
+        </p>
+        <p class="text-xl mb-6 text-gray-300 max-w-4xl mx-auto">
+            While others blast generic emails, we're applying behavioral science models to every abandoned cart in real-time.
+        </p>
+        <p class="text-xl mb-12 text-gray-300 max-w-4xl mx-auto">
+            Industry average recovery is 5–11%. Recover88 launches with 3 behavioral patterns, targeting ~25% recovery in industries like fashion or beauty. In tests with all 7 patterns active, rates reached up to 35%.
+        </p>
+        
+        <p class="text-lg text-gray-300 mb-6 max-w-4xl mx-auto">
+            Joining the Pioneer List is free. Secure your spot now and lock in Founder pricing at launch.
+        </p>
+        
+        <div class="max-w-2xl mx-auto bg-white/5 border-2 border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg shadow-2xl">
+            <p class="mb-6 text-cyan-400 font-bold">
+                Free to join. First 100 to claim Founder spots get $99/mo + 15% success commission for life (vs $297 + 15% success commission on the public plan).
+            </p>
+            <p class="mb-6 text-cyan-400 font-bold">
+                We only make money when you do.
+            </p>
+            
+            <div id="signup-form" class="space-y-4">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input
+                        type="text"
+                        placeholder="First name"
+                        id="firstName"
+                        class="flex-1 bg-white/10 border-2 border-cyan-400 text-white px-5 py-4 rounded-xl text-lg backdrop-blur-lg focus:outline-none focus:border-cyan-300 focus:shadow-lg focus:shadow-cyan-400/25 placeholder-white/70"
+                        required
+                    />
+                    <input
+                        type="email"
+                        placeholder="Work email"
+                        id="email"
+                        class="flex-1 bg-white/10 border-2 border-cyan-400 text-white px-5 py-4 rounded-xl text-lg backdrop-blur-lg focus:outline-none focus:border-cyan-300 focus:shadow-lg focus:shadow-cyan-400/25 placeholder-white/70"
+                        required
+                    />
+                </div>
+                
+                <!-- Honeypot field (hidden) -->
+                <input type="text" id="website" style="display: none;" />
+                
+                <div class="flex items-start gap-3">
+                    <input
+                        type="checkbox"
+                        id="gdprConsent"
+                        class="mt-1 w-5 h-5 text-cyan-400 bg-transparent border-2 border-cyan-400 rounded focus:ring-cyan-400 focus:ring-2"
+                        required
+                    />
+                    <label for="gdprConsent" class="text-sm text-gray-300 text-left">
+                        I agree to receive launch notifications and updates from Recover88. You can unsubscribe at any time. 
+                        <a href="#" onclick="openPrivacyModal()" class="text-cyan-400 underline">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <button
+                    type="submit"
+                    onclick="handleSubmit(event)"
+                    class="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-black px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-400/40 transition-all duration-300 hover:scale-105"
+                >
+                    <div class="text-xl">Join the Pioneer List</div>
+                    <div class="text-sm font-normal opacity-80">Free to join</div>
+                </button>
+                
+                <p class="text-sm text-gray-400 mt-4">
+                    Risk-free: If we don't recover $279 in your first 30 days, you don't pay.
+                </p>
+                
+                <p class="text-sm text-gray-400 mt-2">
+                    Pricing: $99 Founder plan (then $297) + 15% success commission — we only make money when you do.
+                </p>
+            </div>
+            
+            <!-- Confirmation View (hidden initially) -->
+            <div id="confirmation-view" class="hidden text-center">
+                <h2 class="text-3xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                    <span id="welcome-message">Welcome to the Recover88 Pioneer List!</span>
+                </h2>
+                <p class="text-xl mb-8">You are now Pioneer #<span id="pioneer-number">851</span>. Get ready for launch day!</p>
+                
+                <div class="bg-white/5 border border-cyan-400/30 rounded-2xl p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">What happens next?</h3>
+                    <ul class="space-y-2 text-left text-gray-300">
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> You'll get the launch email when we go live</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> First 100 to claim at launch get $99/mo + 15% success commission for life</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Add noreply@recover88.com to priority inbox now</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white/5 border border-cyan-400/30 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">Help us grow the Pioneer community.</h3>
+                    <p class="text-gray-300 mb-6">Share with other merchants who are losing money to abandoned carts. The more Pioneers, the stronger our launch community becomes.</p>
+                    
+                    <div class="space-y-3">
+                        <button
+                            onclick="shareOnTwitter()"
+                            class="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-bold transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                            <span>𝕏</span> Share on X
+                        </button>
+                        <button
+                            onclick="shareOnLinkedIn()"
+                            class="w-full bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-bold transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                            <span>💼</span> Share on LinkedIn
+                        </button>
+                        <button
+                            onclick="copyLink()"
+                            class="w-full bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-bold transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                            <span>🔗</span> Copy Link
+                        </button>
+                    </div>
+                    
+                    <p class="text-sm text-gray-400 mt-4">Your referral link includes tracking so we can see how many merchants you bring to the Pioneer List!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Problem Section -->
+    <div class="container mx-auto px-6 py-20 text-center border-t border-cyan-400/10">
+        <h2 class="text-4xl font-bold mb-8">On average, 7 out of 10 carts are abandoned. For most merchants, that means thousands in lost revenue every month.</h2>
+        <p class="text-xl mb-8 text-gray-300 max-w-4xl mx-auto">
+            Standard recovery tools treat every customer the same. But a price-sensitive shopper needs different messaging than an impulse buyer. A skeptical customer needs trust signals, not discount codes.
+        </p>
+        <p class="text-2xl text-red-400 font-bold">
+            That's money left on the table because your recovery messages treat every customer the same.
+        </p>
+    </div>
+
+    <!-- Adaptive Persuasion Engine -->
+    <div class="container mx-auto px-6 py-20 border-t border-cyan-400/10">
+        <h2 class="text-4xl font-bold text-center mb-16">The Adaptive Persuasion Engine</h2>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            <div class="bg-white/5 border border-yellow-400/30 rounded-2xl p-6 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-transparent"></div>
+                <h3 class="text-xl font-bold mb-4 text-yellow-400 flex items-center gap-3">
+                    <span class="text-2xl">💰</span> Price Sensitive
+                </h3>
+                <ul class="space-y-2 mb-4 text-gray-300">
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Checked shipping 3x</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Tried coupon codes</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Price hover: 47 sec</li>
+                </ul>
+                <div class="text-yellow-400 font-bold">→ Value-focused message</div>
+            </div>
+
+            <div class="bg-white/5 border border-blue-400/30 rounded-2xl p-6 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-transparent"></div>
+                <h3 class="text-xl font-bold mb-4 text-blue-400 flex items-center gap-3">
+                    <span class="text-2xl">🛡️</span> Trust Issues
+                </h3>
+                <ul class="space-y-2 mb-4 text-gray-300">
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Read reviews 2x</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Checked return policy</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Hesitated at checkout</li>
+                </ul>
+                <div class="text-blue-400 font-bold">→ Trust-building message</div>
+            </div>
+
+            <div class="bg-white/5 border border-purple-400/30 rounded-2xl p-6 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 to-transparent"></div>
+                <h3 class="text-xl font-bold mb-4 text-purple-400 flex items-center gap-3">
+                    <span class="text-2xl">⚡</span> Impulse Buyer
+                </h3>
+                <ul class="space-y-2 mb-4 text-gray-300">
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Quick add to cart</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Social media referral</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Mobile session</li>
+                </ul>
+                <div class="text-purple-400 font-bold">→ Urgency-driven message</div>
+            </div>
+
+            <div class="bg-white/5 border border-green-400/30 rounded-2xl p-6 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-transparent"></div>
+                <h3 class="text-xl font-bold mb-4 text-green-400 flex items-center gap-3">
+                    <span class="text-2xl">📊</span> Comparison Shopper
+                </h3>
+                <ul class="space-y-2 mb-4 text-gray-300">
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Multiple tabs open</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Spec comparison</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Long session time</li>
+                </ul>
+                <div class="text-green-400 font-bold">→ Competitive advantage message</div>
+            </div>
+        </div>
+        
+        <p class="text-2xl text-center text-cyan-400 font-bold">
+            Each customer gets a personalized recovery sequence based on their behavioral profile. Industry average is 5–11%. Recover88 launches with 3 patterns (~25% in industries like fashion or beauty), and tests with all 7 patterns active reached up to 35% recovery. Results vary by vertical and traffic quality.
+        </p>
+    </div>
+
+    <!-- Pioneer Competition -->
+    <div class="container mx-auto px-6 py-20 border-t border-cyan-400/10">
+        <h2 class="text-4xl font-bold text-center mb-8">The Pioneer Competition</h2>
+        <p class="text-xl text-center mb-12">
+            Other tools automate. Recover88 persuades. When we launch, the first 100 to claim get $99/mo + 15% success commission for life.
+        </p>
+    </div>
+
+    <!-- Guarantee Section -->
+    <div class="container mx-auto px-6 py-20 border-t border-cyan-400/10">
+        <div class="max-w-2xl mx-auto bg-white/5 border border-cyan-400/20 rounded-2xl p-8 backdrop-blur-lg text-center">
+            <h3 class="text-2xl font-bold mb-4 text-cyan-400">The Recover88 Guarantee</h3>
+            <p class="text-xl mb-4">
+                If we don't recover at least $279 in your first 30 days, you don't pay. Simple.
+            </p>
+            <p class="text-lg mb-4 text-gray-300">
+                And because of our 15% success commission, Recover88 only makes money when you do.
+            </p>
+            <p class="text-sm text-gray-400">
+                * Guarantee applies to all customers, not just Founders
+            </p>
+            
+            <div class="mt-8">
+                <button
+                    onclick="document.querySelector('#signup-form').scrollIntoView({ behavior: 'smooth' })"
+                    class="bg-gradient-to-r from-cyan-400 to-blue-500 text-black px-12 py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-400/40 transition-all duration-300 hover:scale-105"
+                >
+                    <div class="text-xl">Join the Pioneer List</div>
+                    <div class="text-sm font-normal opacity-80">Free to join</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="container mx-auto px-6 py-20 border-t border-cyan-400/10">
+        <h2 class="text-4xl font-bold text-center mb-16">Frequently Asked Questions</h2>
+        
+        <div class="max-w-4xl mx-auto space-y-8">
+            <div class="bg-white/5 border border-cyan-400/30 rounded-2xl p-8 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 to-transparent"></div>
+                <h3 class="text-xl font-bold mb-4 text-cyan-400">
+                    "What if I already use Klaviyo/Omnisend?"
+                </h3>
+                <p class="text-gray-300 leading-relaxed">
+                    Keep them for newsletters. Recover88 only does one thing - recover revenue. Our Adaptive Persuasion Engine sees patterns your email tool misses.
+                </p>
+            </div>
+
+            <div class="bg-white/5 border border-blue-400/30 rounded-2xl p-8 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-transparent"></div>
+                <h3 class="text-xl font-bold mb-4 text-blue-400">
+                    "How is this different from abandoned cart apps?"
+                </h3>
+                <p class="text-gray-300 leading-relaxed">
+                    Other apps send emails. We interpret behavioral signals — ~25% recovery at launch (3 patterns) in industries like fashion or beauty vs. 5–11% average. In tests with all 7 patterns, recovery reached up to 35%.
+                </p>
+            </div>
+
+            <div class="bg-white/5 border border-purple-400/30 rounded-2xl p-8 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 to-transparent"></div>
+                <h3 class="text-xl font-bold mb-4 text-purple-400">
+                    "What happens after 100 Pioneers?"
+                </h3>
+                <p class="text-gray-300 leading-relaxed">
+                    Price goes to $297/mo + 15% success commission. Pioneers keep $99/mo + 15% success commission for life. You save $2,376/year on the base plan for being early.
+                </p>
+            </div>
+
+            <div class="bg-white/5 border border-orange-400/30 rounded-2xl p-8 backdrop-blur-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 to-transparent"></div>
+                <h3 class="text-xl font-bold mb-4 text-orange-400">
+                    "Why a commission fee?"
+                </h3>
+                <p class="text-gray-300 leading-relaxed">
+                    Simple: alignment. The flat subscription keeps our lights on. The 15% success commission keeps us motivated to recover as much revenue as possible for you. We only win when you win.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container mx-auto px-6 py-8 border-t border-cyan-400/10 text-center text-gray-400">
+        <p class="text-xl font-bold text-cyan-400 mb-2">Pioneers today - Founders tomorrow.</p>
+        <p class="mt-2">Recover88 © 2025 | Building in public | Follow us on X</p>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-cyan-400/30 rounded-2xl max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                        Privacy Policy
+                    </h2>
+                    <button onclick="closePrivacyModal()" class="text-gray-400 hover:text-white text-2xl">
+                        ✕
+                    </button>
+                </div>
+                
+                <div class="text-gray-300 space-y-6 text-sm leading-relaxed">
+                    <p class="text-gray-400 text-xs">Last updated: September 16, 2025</p>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">1. Information We Collect</h3>
+                        <p>When you join our Pioneer List, we collect:</p>
+                        <ul class="list-disc ml-6 mt-2 space-y-1">
+                            <li>Your first name and email address</li>
+                            <li>Marketing consent preferences</li>
+                            <li>Website usage data and analytics</li>
+                            <li>UTM parameters and referral sources</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">2. How We Use Your Information</h3>
+                        <p>We use your information to:</p>
+                        <ul class="list-disc ml-6 mt-2 space-y-1">
+                            <li>Send you launch notifications and product updates</li>
+                            <li>Provide customer support and respond to inquiries</li>
+                            <li>Improve our services and user experience</li>
+                            <li>Track referrals and measure marketing effectiveness</li>
+                            <li>Comply with legal obligations</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">3. Information Sharing</h3>
+                        <p>We do not sell, trade, or rent your personal information. We may share your information with:</p>
+                        <ul class="list-disc ml-6 mt-2 space-y-1">
+                            <li>Service providers who help us operate our business (email services, analytics)</li>
+                            <li>Legal authorities when required by law</li>
+                            <li>Business partners only with your explicit consent</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">4. Data Security</h3>
+                        <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no internet transmission is 100% secure.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">5. Your Rights</h3>
+                        <p>You have the right to:</p>
+                        <ul class="list-disc ml-6 mt-2 space-y-1">
+                            <li>Access, update, or delete your personal information</li>
+                            <li>Unsubscribe from marketing communications at any time</li>
+                            <li>Request data portability or restriction of processing</li>
+                            <li>Lodge a complaint with supervisory authorities</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">6. Cookies and Tracking</h3>
+                        <p>We use cookies and similar technologies to improve your experience, analyze website traffic, and track marketing campaigns. You can control cookie preferences through your browser settings.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">7. Data Retention</h3>
+                        <p>We retain your information for as long as necessary to provide our services, comply with legal obligations, and resolve disputes. You can request deletion at any time.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">8. International Transfers</h3>
+                        <p>Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place for such transfers.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">9. Children's Privacy</h3>
+                        <p>Our services are not intended for children under 16. We do not knowingly collect personal information from children under 16.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold text-cyan-400 mb-3">10. Contact Us</h3>
+                        <p>For privacy-related questions or to exercise your rights, contact us at:</p>
+                        <p class="mt-2">
+                            <strong>Email:</strong> privacy@recover88.com<br>
+                            <strong>Address:</strong> Recover88, Inc.<br>
+                            [Your Business Address]
+                        </p>
+                    </div>
+                    
+                    <div class="border-t border-cyan-400/20 pt-6">
+                        <p class="text-xs text-gray-400">
+                            This privacy policy may be updated periodically. We will notify you of significant changes via email or website notice.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <button onclick="closePrivacyModal()" class="bg-gradient-to-r from-cyan-400 to-blue-500 text-black px-8 py-3 rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-400/40 transition-all duration-300">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Capture UTM parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmData = {
+            source: urlParams.get('utm_source') || 'direct',
+            medium: urlParams.get('utm_medium') || 'none',
+            campaign: urlParams.get('utm_campaign') || 'none',
+            content: urlParams.get('utm_content') || 'none'
+        };
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const email = document.getElementById('email').value;
+            const gdprConsent = document.getElementById('gdprConsent').checked;
+            const honeypot = document.getElementById('website').value;
+            
+            // Honeypot spam protection
+            if (honeypot) {
+                console.log('Spam detected');
+                return;
+            }
+            
+            // Validation
+            if (!firstName || !email || !gdprConsent) {
+                alert('Please fill in all fields and accept the privacy policy.');
+                return;
+            }
+            
+            // Prepare form data for Google Forms submission
+            const formData = new FormData();
+            
+            // Replace these field IDs with your actual Google Form field IDs
+            formData.append('entry.FIRSTNAME_FIELD_ID', firstName);
+            formData.append('entry.EMAIL_FIELD_ID', email);
+            formData.append('entry.GDPR_FIELD_ID', gdprConsent ? 'Yes' : 'No');
+            formData.append('entry.UTM_SOURCE_FIELD_ID', utmData.source || 'Direct');
+            formData.append('entry.UTM_MEDIUM_FIELD_ID', utmData.medium || 'None');
+            formData.append('entry.UTM_CAMPAIGN_FIELD_ID', utmData.campaign || 'None');
+            formData.append('entry.UTM_CONTENT_FIELD_ID', utmData.content || 'None');
+            formData.append('entry.TIMESTAMP_FIELD_ID', new Date().toISOString());
+            
+            // Submit to Google Forms
+            fetch('https://docs.google.com/forms/d/e/1FAipQLSfNHNMoPRA44gCyc0O_F7bizK0EE_zxkXBbpxtlMnqNQlC9qg/formResponse', {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            })
+            .then(() => {
+                // Google Forms with no-cors mode always succeeds if it reaches here
+                // Show confirmation view on successful submission
+                document.getElementById('signup-form').style.display = 'none';
+                document.getElementById('confirmation-view').style.display = 'block';
+                
+                // Update welcome message based on first name
+                const welcomeMessage = document.getElementById('welcome-message');
+                if (firstName && firstName.trim()) {
+                    welcomeMessage.textContent = `Welcome to the Recover88 Pioneer List, ${firstName}! 🎉`;
+                } else {
+                    welcomeMessage.textContent = 'Welcome to the Recover88 Pioneer List!';
+                }
+                
+                console.log('Form submitted successfully to Google Forms');
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+                alert('There was an error submitting your information. Please try again or contact us directly at pioneers@recover88.com');
+            });
+        }
+
+        function shareOnTwitter() {
+            const text = "Just joined the Recover88 Pioneer List! 🚀 They're building the first adaptive persuasion engine for e-commerce. Trained on human psychology, designed for Shopify. First 100 get $99/mo + 15% success commission for life!";
+            const url = `${window.location.origin}?utm_source=twitter&utm_medium=social&utm_campaign=pioneer_referral&utm_content=share_button`;
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+            window.open(twitterUrl, '_blank');
+        }
+
+        function shareOnLinkedIn() {
+            const title = "Recover88 Pioneer List - Adaptive Persuasion Engine for E-commerce";
+            const summary = "Revolutionary behavioral AI for abandoned cart recovery. Trained on human psychology, designed for Shopify. Join the Pioneer List for exclusive early access!";
+            const url = `${window.location.origin}?utm_source=linkedin&utm_medium=social&utm_campaign=pioneer_referral&utm_content=share_button`;
+            const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`;
+            window.open(linkedinUrl, '_blank');
+        }
+
+        function copyLink() {
+            const url = `${window.location.origin}?utm_source=referral&utm_medium=link&utm_campaign=pioneer_referral&utm_content=copy_button`;
+            navigator.clipboard.writeText(url).then(() => {
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<span>✅</span> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        function openPrivacyModal() {
+            document.getElementById('privacy-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closePrivacyModal() {
+            document.getElementById('privacy-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal when clicking outside of it
+        document.getElementById('privacy-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePrivacyModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePrivacyModal();
+            }
+        });
+    </script>
+</body>
+</html>
+
